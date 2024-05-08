@@ -18,4 +18,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
                         @Param("last_name") String last_name,
                         @Param("email") String email,
                         @Param("password") String password);
+
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT * FROM user_manager.users where email = :email", nativeQuery = true)
+    Iterable<User> foundUserByEmail(@Param("email") String email);
 }

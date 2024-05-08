@@ -1,5 +1,6 @@
 package com.my_notebook.server.services;
 
+import com.my_notebook.server.models.User;
 import com.my_notebook.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,5 +12,9 @@ public class UserService {
 
     public int registerNewUserServiceMethod(String first_name, String last_name, String email, String password){
         return userRepository.registerNewUser(first_name, last_name, email, password);
+    }
+
+    public Iterable<User> foundUserByEmailServiceMethod(String email){
+        return userRepository.foundUserByEmail(email);
     }
 }
