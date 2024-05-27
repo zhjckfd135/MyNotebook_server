@@ -23,7 +23,7 @@ public class RegisterApiController {
         if(first_name.isEmpty() || last_name.isEmpty() || email.isEmpty() || password.isEmpty())
             return new ResponseEntity<>("Please Complete all Fields", HttpStatus.BAD_REQUEST);
 
-        User user = UserApiController.findUserByEmail(email, service);
+        User user = service.foundUserByEmailServiceMethod(email);
         if(user != null)
             return new ResponseEntity<>("This email is busy", HttpStatus.BAD_REQUEST);
 

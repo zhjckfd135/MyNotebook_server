@@ -15,6 +15,9 @@ public class User {
     private String first_name;
     private String last_name;
     private String email;
+    private String password;
+    private String token;
+    private Date created_at;
 
     public int getUser_id() {
         return user_id;
@@ -56,6 +59,14 @@ public class User {
         this.password = password;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Date getCreated_at() {
         return created_at;
     }
@@ -64,6 +75,4 @@ public class User {
         this.created_at = created_at;
     }
 
-    private String password;
-    private Date created_at;
 }

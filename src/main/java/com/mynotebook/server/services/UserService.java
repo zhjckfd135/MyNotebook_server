@@ -2,11 +2,13 @@ package com.mynotebook.server.services;
 
 import com.mynotebook.server.models.User;
 import com.mynotebook.server.repository.UserRepository;
+import com.mynotebook.server.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+    public static final int TOKEN_LENGTH = 16;
     @Autowired
     UserRepository userRepository;
 
@@ -16,14 +18,28 @@ public class UserService {
 
     public User foundUserByEmailServiceMethod(String email){
         Iterable<User> users = userRepository.foundUserByEmail(email);
-        if(!users.iterator().hasNext())
-            return null;
-        User user = users.iterator().next();
-        return user;
+        return getUserFromIterable(users);
     }
 
-    public User loginUserServiceMethod(String email, String password){
-        User user = userRepository.foundUserByEmail(email).iterator().next();
-        return user;
+    public User foundUserByIdServiceMethod(int id){
+        Iterable<User> users = userRepository.foundUserById(id);
+        return getUserFromIterable(users);
+    }
+
+    public User foundUserByTokenServiceMethod(String token){
+        Iterable<User> users = userRepository.foundUserByToken(token);
+        return getUserFromIterable(users);
+    }
+
+    private static User getUserFromIterable(Iterable<User> users) {
+        if(!users.iterator().hasNext())
+            return null;
+        return users.iterator().next();
+    }
+
+    public String generateAndSetToken(int user_id){
+        String token = new RandomString(TOKEN_LENGTH).nextString();
+        userRepository.setToken(user_id, token);
+        return token;
     }
 }

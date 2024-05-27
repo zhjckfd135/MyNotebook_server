@@ -17,12 +17,4 @@ public class UserApiController {
     public String testEndpoint(){
         return "Test end point working";
     }
-
-    public static User findUserByEmail(String email, UserService service){
-        if(email.isEmpty())
-            throw new NullPointerException();
-
-        User res = service.foundUserByEmailServiceMethod(email);
-        return res;
-    }
 }
