@@ -1,14 +1,16 @@
 package com.mynotebook.server.models;
 
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+@Entity
 @Table(name="user_records_access")
 public class Primary {
-
     private int user_id;
     private int record_id;
-    private int level;
+    private int access_level;
 
     public int getUser_id() {
         return user_id;
@@ -19,11 +21,7 @@ public class Primary {
     }
 
     public int getLevel() {
-        return level;
-    }
-
-    public AccessLevel getEnumLevel() {
-        return AccessLevel.getEnum(level);
+        return access_level;
     }
 
     public void setUser_id(int user_id) {
@@ -35,7 +33,7 @@ public class Primary {
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        this.access_level = level;
     }
 
 }

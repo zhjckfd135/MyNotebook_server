@@ -35,5 +35,5 @@ public interface RecordRepository extends CrudRepository<Record, Integer> {
     @Transactional
     @Modifying
     @Query(value = "select * from user_records_access where user_id = :user_id", nativeQuery = true)
-    Iterable<Primary> getPrimaries(@Param("user_id") String data);
+    Iterable<Primary> getPrimaries(@Param("user_id") int user_id);
 }

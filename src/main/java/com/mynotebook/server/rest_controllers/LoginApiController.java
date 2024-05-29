@@ -37,13 +37,21 @@ public class LoginApiController {
     @GetMapping("/user/loginToken")
     public ResponseEntity loginToken(@RequestParam("id") int user_id,
                                      @RequestParam("token") String token){
-        User user = service.foundUserByIdServiceMethod(user_id);
+        User user = checkToken(service, user_id, token);
         if(user == null)
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-
-        if(!user.getToken().equals(token))
-            return new ResponseEntity<>("Token incorrect", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Incorrect", HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    public static User checkToken(UserService service, int user_id, String token){
+        User user = service.foundUserByIdServiceMethod(user_id);
+        if(user == null)
+            return null;
+
+        if(!user.getToken().equals(token))
+            return null;
+
+        return user;
     }
 }

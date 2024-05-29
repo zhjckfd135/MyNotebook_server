@@ -8,6 +8,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RecordsService {
     @Autowired
@@ -22,5 +25,20 @@ public class RecordsService {
         repository.createRecord(data, title);
         int id = repository.getLastInsertId();
         return repository.findRecordById(id);
+    }
+
+    public List<Record> getRecords(int user_id){
+         Iterable<Primary> primaries = repository.getPrimaries(user_id);
+         List<Primary> primaryList = new ArrayList<>();
+         primaries.forEach(primaryList::add);
+        List<Record> res = new ArrayList<>();
+
+        for (Primary primary:
+             primaryList) {
+            Record record = repository.findRecordById(primary.getRecord_id());
+            res.add(record);
+        }
+
+        return res;
     }
 }

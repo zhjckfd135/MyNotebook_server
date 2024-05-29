@@ -2,20 +2,23 @@ package com.mynotebook.server.rest_controllers;
 
 import com.mynotebook.server.models.AccessLevel;
 import com.mynotebook.server.models.Record;
+import com.mynotebook.server.models.User;
 import com.mynotebook.server.services.RecordsService;
+import com.mynotebook.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class RecordApiController {
     @Autowired
     RecordsService service;
+    @Autowired
+    UserService userService;
 
     @PostMapping("/records/newRecord")
     public ResponseEntity createRecordAndAddPrimary(@RequestParam("user_id") int user_id,
@@ -43,6 +46,19 @@ public class RecordApiController {
 
 
         return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @GetMapping("/records/getRecords")
+    public ResponseEntity getRecords(@RequestParam("user_id") int user_id,
+                                     @RequestParam("token") String token){
+        User user = LoginApiController.checkToken(userService, user_id, token);
+        if(user == null)
+            return new ResponseEntity<>("Not found user", HttpStatus.BAD_REQUEST);
+
+        List<Record> records = service.getRecords(user_id);
+
+
+        return new ResponseEntity<>(records, HttpStatus.OK);
     }
 
 
