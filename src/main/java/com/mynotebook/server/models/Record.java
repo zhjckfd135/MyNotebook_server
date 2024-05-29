@@ -10,6 +10,15 @@ public class Record {
     @Id
     private int record_id;
     private String data;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getRecord_id() {
         return record_id;

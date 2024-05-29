@@ -15,14 +15,17 @@ CREATE TABLE users(
 CREATE TABLE records(
     record_id INT NOT NULL AUTO_INCREMENT,
     data TEXT,
+    title TEXT,
     PRIMARY KEY(record_id)
 );
 
 CREATE TABLE user_records_access(
     user_id INT NOT NULL,
     record_id INT NOT NULL,
-    PRIMARY KEY(user_id)
+    access_level INT NOT NULL
 );
+#1-READ
+#2-WRITE_AND_READ
 
 CREATE TABLE role(
     role_id INT NOT NULL auto_increment,
