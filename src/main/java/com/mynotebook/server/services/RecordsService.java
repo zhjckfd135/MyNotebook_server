@@ -1,7 +1,7 @@
 package com.mynotebook.server.services;
 
 import com.mynotebook.server.models.AccessLevel;
-import com.mynotebook.server.models.Primary;
+import com.mynotebook.server.models.PrimaryProjection;
 import com.mynotebook.server.models.Record;
 import com.mynotebook.server.repository.RecordRepository;
 import jakarta.transaction.Transactional;
@@ -14,28 +14,33 @@ import java.util.List;
 @Service
 public class RecordsService {
     @Autowired
-    RecordRepository repository;
+    RecordRepository recordRepository;
 
     public int addPermission(int user_id, int record_id, AccessLevel level){
-        return repository.addPermission(user_id, record_id, level.getValue());
+        return recordRepository.addPermission(user_id, record_id, level.getValue());
     }
 
     @Transactional
     public Record createRecord(String data, String title) {
-        repository.createRecord(data, title);
-        int id = repository.getLastInsertId();
-        return repository.findRecordById(id);
+        recordRepository.createRecord(data, title);
+        int id = recordRepository.getLastInsertId();
+        return recordRepository.findRecordById(id);
+    }
+
+    @Transactional
+    public int updateRecord(int id ,String data, String title) {
+        return recordRepository.updateRecord(id ,data, title);
     }
 
     public List<Record> getRecords(int user_id){
-         Iterable<Primary> primaries = repository.getPrimaries(user_id);
-         List<Primary> primaryList = new ArrayList<>();
+         Iterable<PrimaryProjection> primaries = recordRepository.getPrimaries(user_id);
+         List<PrimaryProjection> primaryList = new ArrayList<>();
          primaries.forEach(primaryList::add);
         List<Record> res = new ArrayList<>();
 
-        for (Primary primary:
+        for (PrimaryProjection primary:
              primaryList) {
-            Record record = repository.findRecordById(primary.getRecord_id());
+            Record record = recordRepository.findRecordById(primary.getRecord_id());
             res.add(record);
         }
 

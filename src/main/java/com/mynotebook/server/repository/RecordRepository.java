@@ -1,6 +1,6 @@
 package com.mynotebook.server.repository;
 
-import com.mynotebook.server.models.Primary;
+import com.mynotebook.server.models.PrimaryProjection;
 import com.mynotebook.server.models.Record;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +16,13 @@ public interface RecordRepository extends CrudRepository<Record, Integer> {
     @Query(value = "INSERT INTO records(data, title) VALUES(:data, :title)", nativeQuery = true)
     void createRecord(@Param("data") String data,
                      @Param("title") String title);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE records SET data = :data, title= :title WHERE record_id = :id", nativeQuery = true)
+    int updateRecord(@Param("id") int id,
+                      @Param("data") String data,
+                      @Param("title") String title);
 
     @Query(value = "SELECT LAST_INSERT_ID()", nativeQuery = true)
     int getLastInsertId();
@@ -34,6 +41,6 @@ public interface RecordRepository extends CrudRepository<Record, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "select * from user_records_access where user_id = :user_id", nativeQuery = true)
-    Iterable<Primary> getPrimaries(@Param("user_id") int user_id);
+    @Query(value = "SELECT user_id, record_id, access_level FROM user_records_access WHERE user_id = :user_id", nativeQuery = true)
+    Iterable<PrimaryProjection> getPrimaries(@Param("user_id") int user_id);
 }

@@ -61,5 +61,17 @@ public class RecordApiController {
         return new ResponseEntity<>(records, HttpStatus.OK);
     }
 
+    @PostMapping("/records/updateRecords")
+    public ResponseEntity updateRecords(@RequestParam("record_id") int record_id,
+                                        @RequestParam("title") String title,
+                                        @RequestParam("data") String data  ){
+        int res = service.updateRecord(record_id, title, data);
+        if(res != 1)
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
 
 }
