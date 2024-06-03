@@ -26,6 +26,11 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Transactional
     @Modifying
+    @Query(value = "SELECT * FROM my_notebook.users", nativeQuery = true)
+    Iterable<User> getUsers();
+
+    @Transactional
+    @Modifying
     @Query(value = "SELECT * FROM my_notebook.users WHERE email = :email", nativeQuery = true)
     Iterable<User> foundUserByEmail(@Param("email") String email);
 

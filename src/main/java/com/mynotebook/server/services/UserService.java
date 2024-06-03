@@ -1,10 +1,15 @@
 package com.mynotebook.server.services;
 
+import com.mynotebook.server.models.PrimaryProjection;
+import com.mynotebook.server.models.Record;
 import com.mynotebook.server.models.User;
 import com.mynotebook.server.repository.UserRepository;
 import com.mynotebook.server.utils.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -29,6 +34,14 @@ public class UserService {
     public User foundUserByTokenServiceMethod(String token){
         Iterable<User> users = userRepository.foundUserByToken(token);
         return getUserFromIterable(users);
+    }
+
+    public List<User> getUsers(){
+        Iterable<User> users = userRepository.getUsers();
+        List<User> usersList = new ArrayList<>();
+        users.forEach(usersList::add);
+
+        return usersList;
     }
 
     private static User getUserFromIterable(Iterable<User> users) {
