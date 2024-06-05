@@ -26,18 +26,3 @@ CREATE TABLE user_records_access(
 );
 #1-READ
 #2-WRITE_AND_READ
-
-CREATE TABLE role(
-    role_id INT NOT NULL auto_increment,
-    name VARCHAR(255) NOT NULL,
-    PRIMARY KEY(role_id)
-);
-
-CREATE TABLE user_role(
-    user_id INT NOT NULL,
-    role_id INT NOT NULL,
-    PRIMARY KEY(user_id)
-);
-insert into my_notebook.role(name) VALUES("student"); #1
-insert into my_notebook.role(name) VALUES("teacher"); #2
-SELECT role_id,name from my_notebook.role

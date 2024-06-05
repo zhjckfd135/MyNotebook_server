@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -56,9 +57,18 @@ public class RecordApiController {
             return new ResponseEntity<>("Not found user", HttpStatus.BAD_REQUEST);
 
         List<Record> records = service.getRecords(user_id);
+        records.removeAll(Collections.singleton(null));
 
 
         return new ResponseEntity<>(records, HttpStatus.OK);
+    }
+
+    @PostMapping("/records/deleteRecord")
+    public ResponseEntity getRecords(@RequestParam("record_id") int record_id){
+        if(service.deleteRecord(record_id) != 1)
+            return new ResponseEntity<>("Error", HttpStatus.OK);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @PostMapping("/records/updateRecords")

@@ -20,6 +20,10 @@ public class RecordsService {
         return recordRepository.addPermission(user_id, record_id, level.getValue());
     }
 
+    public int deleteRecord(int record_id){
+        return recordRepository.deleteRecord(record_id);
+    }
+
     @Transactional
     public Record createRecord(String data, String title) {
         recordRepository.createRecord(data, title);

@@ -19,6 +19,11 @@ public interface RecordRepository extends CrudRepository<Record, Integer> {
 
     @Transactional
     @Modifying
+    @Query(value = "delete from records where record_id = :record_id", nativeQuery = true)
+    int deleteRecord(@Param("record_id") int record_id);
+
+    @Transactional
+    @Modifying
     @Query(value = "UPDATE records SET data = :data, title= :title WHERE record_id = :id", nativeQuery = true)
     int updateRecord(@Param("id") int id,
                       @Param("data") String data,

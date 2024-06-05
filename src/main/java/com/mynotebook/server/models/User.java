@@ -1,5 +1,6 @@
 package com.mynotebook.server.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="users")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     @Id
     private int user_id;
